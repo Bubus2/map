@@ -66,6 +66,10 @@ namespace stl {
                 return _insert(root, key, data);
             }
 
+            void insert_or_assign(const Key& key, const Data& data) {
+                this->operator[](key) = data;
+            }
+
             Data& operator[](const Key& key) {
                 std::unique_ptr<Node>& node = _search(root, key);
                 if (node != nullptr) {
