@@ -45,7 +45,7 @@ namespace stl {
                 root(nullptr), comp(_comp)
             {}
 
-            bool insert(Key key, Data data) {
+            bool insert(const Key& key, const Data& data) {
                 std::pair<std::unique_ptr<Node>, bool> p = _insert(root, key, data);
                 root = p.first;
                 return p.second; 
