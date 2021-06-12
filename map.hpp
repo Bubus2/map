@@ -12,6 +12,10 @@ namespace stl {
                 std::unique_ptr<Node> left;
                 std::unique_ptr<Node> right;
 
+                Node() : 
+                    key(std::move(Key())), data(std::move(Data()))
+                {}
+
                 Node(Key _key, Data _data) :
                     key(_key), data(_data), left(nullptr), right(nullptr)
                 {}
