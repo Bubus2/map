@@ -24,20 +24,33 @@ namespace stl {
             std::unique_ptr<Node> root;
             Compare comp;
 
-            std::pair<std::unique_ptr<Node>, bool> _insert(std::unique_ptr<Node> current, Key key, Data data) {
+            bool _insert(std::unique_ptr<Node>& current, const Key& key, const Data& data) {
                 if (current == nullptr) {
-                    return std::make_unique<Node>(key, data);
+                    current = std::make_unique<Node>(key, data);
+                    return true;
                 }
 
                 if (current->key == key) {
-                    return std::make_pair(current, false);
+                    return false;
                 }
 
-                if (cur->key < current->key) {
+                if (current->key < current->key) {
                     return _insert(current->left, key, data);
                 }
 
                 return _insert(current->right, key, data);
+            }
+
+            std::unique_ptr<Node>& _search(std::unique_ptr<Node>& current, const Key& key) {
+                if (current == nullptr || current->key == key) {
+                    return current;
+                }
+
+                if (key < current->key) {
+                    return _search(current->left, key);
+                }
+
+                return _search(current->right, key);
             }
 
         public:
@@ -50,9 +63,17 @@ namespace stl {
             {}
 
             bool insert(const Key& key, const Data& data) {
-                std::pair<std::unique_ptr<Node>, bool> p = _insert(root, key, data);
-                root = p.first;
-                return p.second; 
+                return _insert(root, key, data);
+            }
+
+            Data& operator[](const Key& key) {
+                std::unique_ptr<Node>& node = _search(root, key);
+                if (node != nullptr) {
+                    return node->data;
+                }
+
+                _insert(root, key, Data());
+                return _search(root, key)->data;                
             }
     };
 }
