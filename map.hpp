@@ -66,6 +66,10 @@ namespace stl {
                 return _insert(root, key, data);
             }
 
+            bool insert(std::pair<const Key&, const Data&> value) {
+                return _insert(root, value.first, value.second);
+            }
+
             void insert_or_assign(const Key& key, const Data& data) {
                 this->operator[](key) = data;
             }
