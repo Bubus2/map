@@ -31,11 +31,11 @@ namespace stl {
                     return true;
                 }
 
-                if (current->key == key) {
+                if (!(comp(key, current->key) && !comp(current->key, key))) {
                     return false;
                 }
 
-                if (current->key < current->key) {
+                if (comp(key, current->key)) {
                     return _insert(current->left, key, data);
                 }
 
@@ -43,11 +43,11 @@ namespace stl {
             }
 
             std::unique_ptr<Node>& _search(std::unique_ptr<Node>& current, const Key& key) {
-                if (current == nullptr || current->key == key) {
+                if (current == nullptr || (!comp(key, current->key), !comp(current->key, key))) {
                     return current;
                 }
 
-                if (key < current->key) {
+                if (comp(key, current->key)) {
                     return _search(current->left, key);
                 }
 
@@ -68,7 +68,7 @@ namespace stl {
 
         public:
             map() : 
-                root(nullptr) 
+                root(nullptr), comp()
             {}
 
             map(const Compare& _comp) :
