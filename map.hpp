@@ -43,7 +43,7 @@ namespace stl {
             }
 
             std::unique_ptr<Node>& _search(std::unique_ptr<Node>& current, const Key& key) {
-                if (current == nullptr || (!comp(key, current->key), !comp(current->key, key))) {
+                if (current == nullptr || (!comp(key, current->key) && !comp(current->key, key))) {
                     return current;
                 }
 
@@ -54,7 +54,7 @@ namespace stl {
                 return _search(current->right, key);
             }
 
-            std::stringstream _inorder(const std::unique_ptr<Node>& current) {
+            std::stringstream _inorder(const std::unique_ptr<Node>& current) const {
                 std::stringstream result;
                 if (current != nullptr) {
                     result << _inorder(current->left).str() 
@@ -87,6 +87,10 @@ namespace stl {
                 this->operator[](key) = data;
             }
 
+            void insert_or_assign(std::pair<const Key&, const Data&> value) {
+                this->operator[](value.first) = value.second;
+            }
+
             Data& operator[](const Key& key) {
                 std::unique_ptr<Node>& node = _search(root, key);
                 if (node != nullptr) {
@@ -97,7 +101,7 @@ namespace stl {
                 return _search(root, key)->data;                
             }
 
-            std::string to_string() {
+            std::string to_string() const {
                 return _inorder(root).str();
             }
     };
