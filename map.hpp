@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <sstream>
 
 namespace stl {
     template<class Key, class Data, class Compare = std::less<Key>>
@@ -53,6 +54,18 @@ namespace stl {
                 return _search(current->right, key);
             }
 
+            std::stringstream _inorder(const std::unique_ptr<Node>& current) {
+                std::stringstream result;
+                if (current != nullptr) {
+                    result << _inorder(current->left).str() 
+                    << "[" << current->key << "] -> " << current->data << "\n" 
+                    << _inorder(current->right).str();
+                }
+
+                return result;
+                               
+            }
+
         public:
             map() : 
                 root(nullptr) 
@@ -82,6 +95,10 @@ namespace stl {
 
                 _insert(root, key, Data());
                 return _search(root, key)->data;                
+            }
+
+            std::string to_string() {
+                return _inorder(root).str();
             }
     };
 }
