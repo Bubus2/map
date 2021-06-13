@@ -31,7 +31,7 @@ namespace stl {
                     return true;
                 }
 
-                if (!(comp(key, current->key) && !comp(current->key, key))) {
+                if (!comp(key, current->key) && !comp(current->key, key)) {
                     return false;
                 }
 
@@ -68,7 +68,7 @@ namespace stl {
 
         public:
             map() : 
-                root(nullptr), comp()
+                root(nullptr), comp(std::move(Compare()))
             {}
 
             map(const Compare& _comp) :
